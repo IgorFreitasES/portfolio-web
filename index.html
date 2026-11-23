@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Igor Freitas | Engenharia de Software & IoT</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar container">
+      <a href="#inicio" class="logo">&lt;IgorFreitas /&gt;</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#habilidades">Stack</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero / Início -->
+    <section id="inicio" class="hero container">
+      <div class="hero-content">
+        <span class="badge">Engenharia de Software • UDF</span>
+        <h1>Olá, eu sou <strong>Igor Freitas</strong></h1>
+        <p class="subtitle" id="typing-text">Desenvolvedor Full-Stack & Entusiasta de IoT/Sistemas Embarcados</p>
+        <p class="description">
+          Construindo soluções práticas que conectam software moderno, automação e hardware — de aplicações web em React/Firebase até monitoramento embarcado com ESP32.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projetos" class="btn btn-primary">Ver Projetos</a>
+          <a href="https://github.com/IgorFreitasES" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <!-- Substitua 'perfil.jpg' pela sua foto na pasta img/ -->
+        <img src="img/perfil.jpg" alt="Foto de Igor Freitas" onerror="this.src='https://github.com/IgorFreitasES.png'">
+      </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="section container">
+      <h2 class="section-title">Sobre Mim</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>Trajetória & Foco</h3>
+          <p>
+            Estudante de Engenharia de Software no Centro Universitário do Distrito Federal (UDF), com sólida experiência prática em liderança operacional, sistemas elétricos e gestão técnica.
+          </p>
+          <p>
+            Atualmente foco na criação de aplicações web escaláveis e automação via microcontroladores, unindo visão de negócio e resolução real de problemas.
+          </p>
+        </div>
+        <div class="about-highlights">
+          <div class="highlight-item">
+            <span class="highlight-number">Web</span>
+            <span class="highlight-label">HTML5, CSS3, JS, React & Firebase</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-number">IoT</span>
+            <span class="highlight-label">ESP32, Sensores & Telemetria</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-number">Backend</span>
+            <span class="highlight-label">C, Java, SQL & Modelagem</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Habilidades / Stack -->
+    <section id="habilidades" class="section container">
+      <h2 class="section-title">Tecnologias & Ferramentas</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3>Front-End</h3>
+          <p>HTML5 Semântico, CSS3 (Flexbox/Grid), JavaScript ES6+, React, Tailwind CSS.</p>
+        </div>
+        <div class="skill-card">
+          <h3>Back-End & Dados</h3>
+          <p>C, Java, SQL, Modelagem Relacional, Firebase (Auth & Firestore).</p>
+        </div>
+        <div class="skill-card">
+          <h3>Hardware & DevOps</h3>
+          <p>ESP32, Eletrônica Aplicada, Linux, Git, GitHub & GitHub Pages.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projetos -->
+    <section id="projetos" class="section container">
+      <h2 class="section-title">Projetos em Destaque</h2>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="iot">IoT & Hardware</button>
+      </div>
+      <div class="projects-grid" id="projects-grid">
+        <article class="project-card" data-category="web">
+          <div class="project-tag">Web App</div>
+          <h3>Sistema de Orçamentos & Gestão Técnica</h3>
+          <p>Aplicação desenvolvida para cálculo automatizado de deslocamento, rateio técnico, controle de faturamento e geração de PDFs para atendimento em campo.</p>
+          <div class="project-tech">
+            <span>React</span><span>Tailwind</span><span>Firebase</span>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="iot">
+          <div class="project-tag">IoT / Embarcados</div>
+          <h3>Monitoramento Automatizado de Reservatórios</h3>
+          <p>Sistema em operação diária utilizando microcontrolador ESP32, sensor ultrassônico e acionamento por relé para controle de nível e proteção de bombas.</p>
+          <div class="project-tech">
+            <span>ESP32</span><span>C++</span><span>Automação</span>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="iot">
+          <div class="project-tag">IoT / Automotivo</div>
+          <h3>Computador de Bordo & Consumo Instantâneo</h3>
+          <p>Módulo embarcado baseado em ESP32 para leitura de telemetria e cálculo de eficiência energética (km/l) em tempo real.</p>
+          <div class="project-tech">
+            <span>ESP32</span><span>Sensores</span><span>Telemetria</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="section container">
+      <h2 class="section-title">Vamos Conversar?</h2>
+      <form class="contact-form" id="contact-form">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" required placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" required placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" rows="4" required placeholder="Escreva sua mensagem..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+        <p class="form-feedback" id="form-feedback"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 Igor Freitas. Desenvolvido para a disciplina de Front-End (UDF).</p>
+      <a href="https://github.com/IgorFreitasES" target="_blank" rel="noopener">github.com/IgorFreitasES</a>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
