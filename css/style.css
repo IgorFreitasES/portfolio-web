@@ -57,6 +57,7 @@ body {
   font-weight: 800;
   background: var(--gradient-accent);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
 }
@@ -136,11 +137,11 @@ body {
   align-items: center;
   gap: 3rem;
   padding: 5.5rem 0;
-  pointer-events: none; /* Permite o mouse interagir com o canvas por trás */
+  pointer-events: none;
 }
 
 .hero-content, .hero-image {
-  pointer-events: auto; /* Mantém botões e textos selecionáveis/clicáveis */
+  pointer-events: auto;
 }
 
 .badge {
@@ -171,6 +172,7 @@ body {
 .hero h1 strong {
   background: var(--gradient-accent);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -467,6 +469,123 @@ body {
   transform: translateY(0);
 }
 
+/* ==========================================
+   ESTILO APPLE LIQUID GLASS (PRETO / AMARELO / LARANJA)
+   ========================================== */
+.liquid-glass {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(250, 204, 21, 0.05) 45%,
+    rgba(249, 115, 22, 0.06) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 1.5px 1.5px 1px rgba(254, 240, 138, 0.42),
+    inset -1px -1px 2px rgba(249, 115, 22, 0.16),
+    inset 0 0 18px rgba(255, 255, 255, 0.04),
+    0 12px 32px rgba(0, 0, 0, 0.55),
+    0 2px 10px rgba(249, 115, 22, 0.12);
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s ease,
+    background 0.28s ease;
+}
+
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 80% at 15% 0%,
+    rgba(250, 204, 21, 0.22) 0%,
+    rgba(249, 115, 22, 0.08) 40%,
+    transparent 70%
+  );
+  filter: url(#liquid-refraction);
+  opacity: 0.75;
+  pointer-events: none;
+  transition: opacity 0.28s ease, transform 0.35s ease;
+}
+
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.16),
+    rgba(250, 204, 21, 0.12),
+    transparent
+  );
+  transform: rotate(22deg);
+  transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.liquid-glass:hover {
+  transform: translateY(-3px);
+  border-color: rgba(250, 204, 21, 0.45);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(250, 204, 21, 0.09) 48%,
+    rgba(249, 115, 22, 0.11) 100%
+  );
+  box-shadow:
+    inset 2px 2px 1.5px rgba(254, 240, 138, 0.68),
+    inset -1.5px -1.5px 3px rgba(249, 115, 22, 0.28),
+    inset 0 0 24px rgba(250, 204, 21, 0.08),
+    0 16px 38px rgba(0, 0, 0, 0.65),
+    0 4px 18px rgba(249, 115, 22, 0.24);
+}
+
+.liquid-glass:hover::before {
+  opacity: 1;
+}
+
+.liquid-glass:hover::after {
+  left: 130%;
+}
+
+.liquid-glass:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.btn.liquid-glass.btn-glass-accent {
+  background: linear-gradient(
+    135deg,
+    rgba(250, 204, 21, 0.26) 0%,
+    rgba(249, 115, 22, 0.28) 100%
+  );
+  border-color: rgba(250, 204, 21, 0.45);
+  color: #fffbeb;
+}
+
+.btn.liquid-glass.btn-glass-accent:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(250, 204, 21, 0.36) 0%,
+    rgba(249, 115, 22, 0.38) 100%
+  );
+  border-color: rgba(254, 240, 138, 0.75);
+}
+
+.liquid-glass > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Responsividade Mobile */
 @media (max-width: 768px) {
   .menu-toggle {
@@ -515,5 +634,15 @@ body {
 
   .about-grid, .skills-grid, .projects-grid {
     grid-template-columns: 1fr;
+  }
+
+  .liquid-glass {
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+
+  .liquid-glass::before {
+    filter: none;
+    opacity: 0.55;
   }
 }
