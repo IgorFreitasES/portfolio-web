@@ -676,22 +676,37 @@ body.scrolled #particles-canvas {
   overflow: visible;
 }
 
-.plumbob {
-  animation: plumbob-float 2.4s ease-in-out infinite;
-  transform-origin: 110px 38px;
+.planet-orbit {
+  animation: planet-float 2.6s ease-in-out infinite;
+  transform-origin: 110px 40px;
+}
+
+.planet-body {
+  animation: planet-spin 4.5s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .waving-arm {
   animation: sim-wave 1.6s ease-in-out infinite;
-  transform-origin: 154px 192px;
+  transform-origin: 156px 193px;
 }
 
-@keyframes plumbob-float {
+@keyframes planet-float {
   0%, 100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-7px);
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes planet-spin {
+  0%, 100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(-1);
   }
 }
 
@@ -711,10 +726,12 @@ body.scrolled #particles-canvas {
 }
 
 .mascot-caption {
-  margin-top: 0.5rem;
-  font-size: 0.92rem;
+  margin-top: 0.65rem;
+  max-width: 260px;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--yellow);
+  line-height: 1.45;
 }
 
 /* ==========================================
@@ -767,7 +784,8 @@ body.scrolled #particles-canvas {
   }
 
   .scroll-wheel,
-  .plumbob,
+  .planet-orbit,
+  .planet-body,
   .waving-arm {
     animation: none;
   }
