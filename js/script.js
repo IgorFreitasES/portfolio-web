@@ -1,85 +1,119 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   // ==========================================
-  // 1. MENU MOBILE (HAMBÚRGUER)
+  // 1. MENU QUE SURGE APÓS ROLAR A ABERTURA + OPACIDADE DO FUNDO
+  // ==========================================
+  const siteHeader = document.getElementById("site-header");
+  const heroScreen = document.getElementById("inicio");
+
+  function handleScrollState() {
+    const triggerPoint = heroScreen ? heroScreen.offsetHeight * 0.45 : 260;
+    const isPastHero = window.scrollY > triggerPoint;
+
+    if (isPastHero) {
+      siteHeader.classList.add("visible");
+      siteHeader.setAttribute("aria-hidden", "false");
+      document.body.classList.add("scrolled");
+    } else {
+      siteHeader.classList.remove("visible");
+      siteHeader.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("scrolled");
+    }
+  }
+
+  window.addEventListener("scroll", handleScrollState, { passive: true });
+  handleScrollState();
+
+  // ==========================================
+  // 2. MENU MOBILE & BOTÃO DE ALTO CONTRASTE (ACESSIBILIDADE)
   // ==========================================
   const menuToggle = document.getElementById("menu-toggle");
   const navLinks = document.getElementById("nav-links");
 
   menuToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
+    const isOpen = navLinks.classList.toggle("active");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
   });
 
   document.querySelectorAll(".nav-links a").forEach((link) => {
     link.addEventListener("click", () => {
       navLinks.classList.remove("active");
+      menuToggle.setAttribute("aria-expanded", "false");
     });
   });
 
+  const contrastToggle = document.getElementById("contrast-toggle");
+  contrastToggle.addEventListener("click", () => {
+    const active = document.body.classList.toggle("high-contrast");
+    contrastToggle.setAttribute("aria-pressed", String(active));
+  });
+
   // ==========================================
-  // 2. EFEITO SCROLLING SUTIL (INTERSECTION OBSERVER)
+  // 3. SCROLL REVEAL SUTIL (INTERSECTION OBSERVER)
   // ==========================================
   const revealElements = document.querySelectorAll(".reveal");
 
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target); // Anima apenas uma vez para manter elegante
-        }
-      });
-    },
-    {
-      threshold: 0.12,
-      rootMargin: "0px 0px -30px 0px"
-    }
-  );
+  if (!prefersReducedMotion && "IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -25px 0px"
+      }
+    );
 
-  revealElements.forEach((el) => revealObserver.observe(el));
+    revealElements.forEach((el) => revealObserver.observe(el));
+  } else {
+    revealElements.forEach((el) => el.classList.add("visible"));
+  }
 
   // ==========================================
-  // 3. PARTÍCULAS INTERATIVAS NO CABEÇALHO (REPULSÃO)
+  // 4. FUNDO INTERATIVO EM TODA A PÁGINA (MOUSE & TOQUE)
   // ==========================================
   const canvas = document.getElementById("particles-canvas");
-  if (canvas) {
+  if (canvas && !prefersReducedMotion) {
     const ctx = canvas.getContext("2d");
-    const heroWrapper = document.querySelector(".hero-wrapper");
     let particles = [];
-    const colors = ["#facc15", "#f59e0b", "#f97316", "#ea580c"]; // Amarelo e Laranja
+    const colors = ["#facc15", "#f59e0b", "#f97316", "#ea580c"];
 
     const mouse = {
       x: null,
       y: null,
-      radius: 120 // Raio de repulsão do cursor
+      radius: 135
     };
 
     function resizeCanvas() {
-      canvas.width = heroWrapper.offsetWidth;
-      canvas.height = heroWrapper.offsetHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       initParticles();
     }
 
-    heroWrapper.addEventListener("mousemove", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    }, { passive: true });
 
-    heroWrapper.addEventListener("mouseleave", () => {
+    window.addEventListener("mouseleave", () => {
       mouse.x = null;
       mouse.y = null;
     });
 
-    // Suporte para toque no celular/tablet
-    heroWrapper.addEventListener("touchmove", (e) => {
+    window.addEventListener("touchmove", (e) => {
       if (e.touches.length > 0) {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.touches[0].clientX - rect.left;
-        mouse.y = e.touches[0].clientY - rect.top;
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
       }
     }, { passive: true });
 
-    heroWrapper.addEventListener("touchend", () => {
+    window.addEventListener("touchend", () => {
       mouse.x = null;
       mouse.y = null;
     });
@@ -88,9 +122,9 @@ document.addEventListener("DOMContentLoaded", () => {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2.6 + 1.2;
-        this.vx = (Math.random() - 0.5) * 0.9;
-        this.vy = (Math.random() - 0.5) * 0.9;
+        this.size = Math.random() * 2.5 + 1.2;
+        this.vx = (Math.random() - 0.5) * 0.85;
+        this.vy = (Math.random() - 0.5) * 0.85;
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
@@ -98,11 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
         this.x += this.vx;
         this.y += this.vy;
 
-        // Rebate nas bordas do cabeçalho
         if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
         if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
 
-        // Repulsão interativa com o mouse
         if (mouse.x !== null && mouse.y !== null) {
           const dx = this.x - mouse.x;
           const dy = this.y - mouse.y;
@@ -110,10 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (distance < mouse.radius && distance > 0) {
             const force = (mouse.radius - distance) / mouse.radius;
-            const pushX = (dx / distance) * force * 4.5;
-            const pushY = (dy / distance) * force * 4.5;
-            this.x += pushX;
-            this.y += pushY;
+            this.x += (dx / distance) * force * 4.5;
+            this.y += (dy / distance) * force * 4.5;
           }
         }
       }
@@ -128,8 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initParticles() {
       particles = [];
-      // Ajusta densidade conforme o tamanho da tela (leve no mobile)
-      const count = Math.min(Math.floor((canvas.width * canvas.height) / 11000), 85);
+      const count = Math.min(Math.floor((canvas.width * canvas.height) / 13000), 85);
       for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
@@ -142,8 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
           const dy = particles[a].y - particles[b].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 115) {
-            const opacity = (1 - distance / 115) * 0.35;
+          if (distance < 120) {
+            const opacity = (1 - distance / 120) * 0.32;
             ctx.strokeStyle = `rgba(249, 115, 22, ${opacity})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -155,47 +184,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    function animateParticles() {
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p) => {
         p.update();
         p.draw();
       });
       connectParticles();
-      requestAnimationFrame(animateParticles);
+      requestAnimationFrame(animate);
     }
 
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
-    animateParticles();
+    animate();
   }
 
   // ==========================================
-  // 4. FILTRO DE PROJETOS POR CATEGORIA
-  // ==========================================
-  const filterButtons = document.querySelectorAll(".filter-btn");
-  const projectCards = document.querySelectorAll(".project-card");
-
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      filterButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-
-      const filter = button.getAttribute("data-filter");
-
-      projectCards.forEach((card) => {
-        const category = card.getAttribute("data-category");
-        if (filter === "all" || category === filter) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    });
-  });
-
-  // ==========================================
-  // 5. FEEDBACK INTERATIVO NO FORMULÁRIO
+  // 5. VALIDAÇÃO ACESSÍVEL DO FORMULÁRIO
   // ==========================================
   const contactForm = document.getElementById("contact-form");
   const formFeedback = document.getElementById("form-feedback");
@@ -203,6 +208,13 @@ document.addEventListener("DOMContentLoaded", () => {
   contactForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const mensagem = document.getElementById("mensagem").value.trim();
+
+    if (!nome || !email || !mensagem) {
+      formFeedback.textContent = "Por favor, preencha nome, e-mail e mensagem antes de enviar.";
+      return;
+    }
 
     formFeedback.textContent = `Obrigado, ${nome}! Sua mensagem foi registrada com sucesso.`;
     contactForm.reset();

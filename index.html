@@ -3,180 +3,349 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio de Igor Freitas — Estudante de Engenharia de Software na UDF, desenvolvedor web e entusiasta de IoT e sistemas embarcados.">
   <title>Igor Freitas | Engenharia de Software & IoT</title>
+  <!-- Ícone </> na aba do navegador -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2309090b'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='26' fill='%23facc15'%3E%26lt;/%26gt;%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Filtro SVG sutil de refração líquida para .liquid-glass -->
-  <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
-    <defs>
-      <filter id="liquid-refraction" x="-8%" y="-8%" width="116%" height="116%">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.012 0.018"
-          numOctaves="2"
-          seed="7"
-          result="noise"
-        />
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="noise"
-          scale="3.5"
-          xChannelSelector="R"
-          yChannelSelector="G"
-        />
-      </filter>
-    </defs>
-  </svg>
+  <!-- Link de acessibilidade para navegação por teclado / leitores de tela -->
+  <a href="#sobre" class="skip-link">Pular para o conteúdo principal</a>
 
-  <header class="header">
-    <nav class="navbar container">
+  <!-- Canvas interativo fixo em toda a página -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Cabeçalho com menu (aparece suavemente ao rolar a página) -->
+  <header class="header" id="site-header" aria-hidden="true">
+    <nav class="navbar container" aria-label="Navegação principal">
       <a href="#inicio" class="logo">&lt;IgorFreitas /&gt;</a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+
+      <div class="nav-actions">
+        <button type="button" class="a11y-toggle" id="contrast-toggle" aria-pressed="false" title="Alternar modo de alto contraste">
+          Alto Contraste
+        </button>
+
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menu de navegação">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
       <ul class="nav-links" id="nav-links">
         <li><a href="#inicio">Início</a></li>
         <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#habilidades">Stack</a></li>
+        <li><a href="#stack">Tecnologias & Hardware</a></li>
         <li><a href="#projetos">Projetos</a></li>
         <li><a href="#contato">Contato</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <!-- Hero / Cabeçalho de Apresentação com Partículas Interativas -->
-    <section id="inicio" class="hero-wrapper">
-      <canvas id="particles-canvas"></canvas>
-      <div class="hero container">
-        <div class="hero-content reveal">
-          <span class="badge">Engenharia de Software • UDF</span>
-          <p class="greeting">Bem-vindo ao meu portfólio 👋</p>
-          <h1>Olá, eu sou <strong>Igor Freitas</strong></h1>
-          <p class="subtitle">Desenvolvedor Full-Stack & Entusiasta de IoT/Sistemas Embarcados</p>
-          <p class="description">
-            Construindo soluções práticas que conectam software moderno, automação e hardware — de aplicações web em React/Firebase até monitoramento embarcado com ESP32.
-          </p>
-          <div class="hero-buttons">
-            <a href="#projetos" class="btn liquid-glass btn-glass-accent">Ver Projetos</a>
-            <a href="https://github.com/IgorFreitasES" target="_blank" rel="noopener" class="btn liquid-glass">GitHub</a>
-          </div>
+  <main id="conteudo-principal">
+    <!-- ==========================================
+         1. ABERTURA LIMPA (100vh)
+         Apenas foto, saudação, fundo reativo e indicador de scroll
+         ========================================== -->
+    <section id="inicio" class="hero-screen" aria-label="Apresentação inicial">
+      <div class="hero-minimal container">
+        <div class="hero-avatar-wrap">
+          <img
+            src="img/perfil.jpg"
+            alt="Foto de perfil de Igor Freitas"
+            class="hero-avatar"
+            onerror="this.src='https://github.com/IgorFreitasES.png'"
+          >
         </div>
-        <div class="hero-image reveal">
-          <img src="img/perfil.jpg" alt="Foto de Igor Freitas" onerror="this.src='https://github.com/IgorFreitasES.png'">
+
+        <div class="hero-greeting-wrap">
+          <p class="hero-kicker">Olá, seja bem-vindo 👋</p>
+          <h1>Eu sou <strong>Igor Freitas</strong></h1>
         </div>
       </div>
+
+      <a href="#sobre" class="scroll-indicator" aria-label="Rolar para baixo para conhecer o portfólio">
+        <span class="scroll-text">Role para explorar</span>
+        <span class="scroll-mouse" aria-hidden="true">
+          <span class="scroll-wheel"></span>
+        </span>
+      </a>
     </section>
 
-    <!-- Sobre -->
-    <section id="sobre" class="section container">
-      <h2 class="section-title reveal">Sobre Mim</h2>
+    <!-- ==========================================
+         2. SOBRE MIM & FORMAÇÃO (COM ESTRELA UDF)
+         ========================================== -->
+    <section id="sobre" class="section container" aria-labelledby="titulo-sobre">
+      <h2 id="titulo-sobre" class="section-title reveal">Sobre Mim</h2>
+
       <div class="about-grid">
-        <div class="about-card liquid-glass reveal">
-          <h3>Trajetória & Foco</h3>
+        <article class="card reveal">
+          <h3>Trajetória & Propósito</h3>
           <p>
-            Estudante de Engenharia de Software no Centro Universitário do Distrito Federal (UDF), com sólida experiência prática em liderança operacional, sistemas elétricos e gestão técnica.
+            Sou apaixonado por resolver problemas reais conectando desenvolvimento de software, eletrônica aplicada e automação. Minha experiência prática une liderança operacional, infraestrutura elétrica e construção de sistemas web e embarcados.
           </p>
           <p>
-            Atualmente foco na criação de aplicações web escaláveis e automação via microcontroladores, unindo visão de negócio e resolução real de problemas.
+            Atualmente estou em transição dedicada para o setor de tecnologia, desenvolvendo soluções que saem da bancada e funcionam de verdade no dia a dia.
           </p>
-        </div>
-        <div class="about-highlights">
-          <div class="highlight-item liquid-glass reveal">
-            <span class="highlight-number">Web</span>
-            <span class="highlight-label">HTML5, CSS3, JS, React & Firebase</span>
-          </div>
-          <div class="highlight-item liquid-glass reveal">
-            <span class="highlight-number">IoT</span>
-            <span class="highlight-label">ESP32, Sensores & Telemetria</span>
-          </div>
-          <div class="highlight-item liquid-glass reveal">
-            <span class="highlight-number">Backend</span>
-            <span class="highlight-label">C, Java, SQL & Modelagem</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Habilidades / Stack -->
-    <section id="habilidades" class="section container">
-      <h2 class="section-title reveal">Tecnologias & Ferramentas</h2>
-      <div class="skills-grid">
-        <div class="skill-card liquid-glass reveal">
-          <h3>Front-End</h3>
-          <p>HTML5 Semântico, CSS3 (Flexbox/Grid), JavaScript ES6+, React, Tailwind CSS.</p>
-        </div>
-        <div class="skill-card liquid-glass reveal">
-          <h3>Back-End & Dados</h3>
-          <p>C, Java, SQL, Modelagem Relacional, Firebase (Auth & Firestore).</p>
-        </div>
-        <div class="skill-card liquid-glass reveal">
-          <h3>Hardware & DevOps</h3>
-          <p>ESP32, Eletrônica Aplicada, Linux, Git, GitHub & GitHub Pages.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Projetos -->
-    <section id="projetos" class="section container">
-      <h2 class="section-title reveal">Projetos em Destaque</h2>
-      <div class="filter-buttons reveal">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="web">Web</button>
-        <button class="filter-btn" data-filter="iot">IoT & Hardware</button>
-      </div>
-      <div class="projects-grid" id="projects-grid">
-        <article class="project-card liquid-glass reveal" data-category="web">
-          <div class="project-tag">Web App</div>
-          <h3>Sistema de Orçamentos & Gestão Técnica</h3>
-          <p>Aplicação desenvolvida para cálculo automatizado de deslocamento, rateio técnico, controle de faturamento e geração de PDFs para atendimento em campo.</p>
-          <div class="project-tech">
-            <span>React</span><span>Tailwind</span><span>Firebase</span>
-          </div>
         </article>
 
-        <article class="project-card liquid-glass reveal" data-category="iot">
-          <div class="project-tag">IoT / Embarcados</div>
-          <h3>Monitoramento Automatizado de Reservatórios</h3>
-          <p>Sistema em operação diária utilizando microcontrolador ESP32, sensor ultrassônico e acionamento por relé para controle de nível e proteção de bombas.</p>
-          <div class="project-tech">
-            <span>ESP32</span><span>C++</span><span>Automação</span>
+        <article class="card udf-card reveal">
+          <div class="udf-header">
+            <img
+              src="img/udf-estrela.png"
+              alt="Estrela oficial do Centro Universitário do Distrito Federal - UDF"
+              class="udf-star"
+            >
+            <div>
+              <span class="tag-accent">Formação Acadêmica</span>
+              <h3>Engenharia de Software — UDF</h3>
+            </div>
           </div>
-        </article>
-
-        <article class="project-card liquid-glass reveal" data-category="iot">
-          <div class="project-tag">IoT / Automotivo</div>
-          <h3>Computador de Bordo & Consumo Instantâneo</h3>
-          <p>Módulo embarcado baseado em ESP32 para leitura de telemetria e cálculo de eficiência energética (km/l) em tempo real.</p>
-          <div class="project-tech">
-            <span>ESP32</span><span>Sensores</span><span>Telemetria</span>
-          </div>
+          <p>
+            Graduando em Engenharia de Software pelo <strong>Centro Universitário do Distrito Federal (UDF)</strong>, com foco em arquitetura de software, programação estruturada e orientada a objetos, bancos de dados relacionais e desenvolvimento web responsivo.
+          </p>
         </article>
       </div>
     </section>
 
-    <!-- Contato -->
-    <section id="contato" class="section container">
-      <h2 class="section-title reveal">Vamos Conversar?</h2>
-      <form class="contact-form liquid-glass reveal" id="contact-form">
-        <div class="form-group">
-          <label for="nome">Nome</label>
-          <input type="text" id="nome" required placeholder="Seu nome">
+    <!-- ==========================================
+         3. TECNOLOGIAS, FERRAMENTAS & HARDWARE
+         ========================================== -->
+    <section id="stack" class="section container" aria-labelledby="titulo-stack">
+      <h2 id="titulo-stack" class="section-title reveal">Tecnologias, Ferramentas & Hardware</h2>
+      <p class="section-lead reveal">
+        As áreas em que atuo combinam código limpo com componentes físicos de sensoriamento, telemetria e acionamento elétrico.
+      </p>
+
+      <!-- Áreas de atuação com linguagens e ferramentas -->
+      <div class="areas-grid">
+        <article class="card reveal">
+          <span class="tag-accent">01 • Desenvolvimento Web</span>
+          <h3>Front-End & Aplicações</h3>
+          <p>Interfaces responsivas, semânticas e acessíveis com foco em usabilidade e desempenho.</p>
+          <div class="chip-list" aria-label="Tecnologias de Front-End">
+            <span>HTML5</span>
+            <span>CSS3</span>
+            <span>JavaScript</span>
+            <span>React</span>
+            <span>Tailwind CSS</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <span class="tag-accent">02 • Lógica & Dados</span>
+          <h3>Back-End & Banco de Dados</h3>
+          <p>Modelagem relacional, estruturação de dados em nuvem e lógica de sistemas.</p>
+          <div class="chip-list" aria-label="Tecnologias de Back-End">
+            <span>C</span>
+            <span>Java</span>
+            <span>SQL</span>
+            <span>Firebase</span>
+            <span>Git / GitHub</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <span class="tag-accent">03 • Sistemas Embarcados</span>
+          <h3>IoT & Automação Elétrica</h3>
+          <p>Integração de microcontroladores, leitura de sensores e acionamento seguro de cargas.</p>
+          <div class="chip-list" aria-label="Componentes e protocolos de IoT">
+            <span>ESP32 / ESP8266</span>
+            <span>C++ (Arduino)</span>
+            <span>Ultrassônico</span>
+            <span>Sensor de Balança</span>
+            <span>Relés & Telemetria</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Vitrine visual de Hardware (tira o aspecto chapado) -->
+      <h3 class="subsection-title reveal">Componentes & Bancada IoT</h3>
+      <div class="hardware-grid">
+        <figure class="hardware-card reveal">
+          <div class="hardware-img-box">
+            <img src="img/placa-microcontrolador.png" alt="Placa microcontroladora com módulo Wi-Fi para projetos IoT">
+          </div>
+          <figcaption>
+            <strong>Microcontroladores Wi-Fi (ESP32 / ESP8266)</strong>
+            <span>Processamento embarcado, leitura de sensores e envio de telemetria em tempo real.</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hardware-card reveal">
+          <div class="hardware-img-box">
+            <img src="img/sensor-umidade-solo.png" alt="Sensor de umidade do solo FC-28 com módulo comparador">
+          </div>
+          <figcaption>
+            <strong>Sensores Ambientais, Nível & Balança</strong>
+            <span>Ultrassônico para nível hídrico, célula de carga (balança) para gás e umidade de solo para plantas.</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hardware-card reveal">
+          <div class="hardware-img-box">
+            <img src="img/modulo-reles.png" alt="Módulo de dois relés de 5V para acionamento elétrico">
+          </div>
+          <figcaption>
+            <strong>Módulos de Relés & Proteção</strong>
+            <span>Acionamento isolado de bombas, cargas elétricas e integração com sistemas de proteção.</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hardware-card reveal">
+          <div class="hardware-img-box">
+            <img src="img/servo-motor.png" alt="Micro servo motor com braço atuador e cabo de sinal">
+          </div>
+          <figcaption>
+            <strong>Atuadores & Conectividade</strong>
+            <span>Servo motores para controle mecânico preciso e comunicação sem fio contínua.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         4. PROJETOS
+         ========================================== -->
+    <section id="projetos" class="section container" aria-labelledby="titulo-projetos">
+      <h2 id="titulo-projetos" class="section-title reveal">Projetos</h2>
+
+      <!-- Projeto Principal Concluído: HydroMonitor -->
+      <article class="featured-project card reveal" aria-labelledby="proj-hydromonitor">
+        <div class="featured-project-media">
+          <img
+            src="img/hydromonitor.jpg"
+            alt="Dashboard em tempo real do sistema supervisório HydroMonitor mostrando níveis dos reservatórios superior e inferior"
+          >
         </div>
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" required placeholder="seu@email.com">
+
+        <div class="featured-project-body">
+          <div class="status-row">
+            <span class="status-badge status-live">● Concluído & Em Operação 100%</span>
+            <span class="tag-accent">IoT • Supervisório Hídrico</span>
+          </div>
+
+          <h3 id="proj-hydromonitor">HydroMonitor — Sistema Supervisório de Monitoramento Hídrico</h3>
+          <p>
+            Sistema completo de telemetria e automação hídrica desenvolvido, implantado e em operação contínua 24/7 até hoje. Monitora em tempo real o nível e o volume em litros dos reservatórios superior e inferior utilizando microcontroladores ESP32 e sensores ultrassônicos, exibindo o estado da bomba de recalque, bomba do poço artesiano e alertas operacionais em uma dashboard web responsiva.
+          </p>
+
+          <div class="chip-list">
+            <span>ESP32</span>
+            <span>Sensor Ultrassônico</span>
+            <span>Relés</span>
+            <span>Dashboard Web</span>
+            <span>Telemetria em Tempo Real</span>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="mensagem">Mensagem</label>
-          <textarea id="mensagem" rows="4" required placeholder="Escreva sua mensagem..."></textarea>
+      </article>
+
+      <!-- Projeto em Arquitetura / Evolução: Automação Residencial com IA -->
+      <article class="secondary-project card reveal" aria-labelledby="proj-automacao-ia">
+        <div class="secondary-project-header">
+          <div>
+            <div class="status-row">
+              <span class="status-badge status-dev">◐ Em Arquitetura & Desenvolvimento</span>
+              <span class="tag-accent">Smart Home • IA • Eficiência Energética</span>
+            </div>
+            <h3 id="proj-automacao-ia">Ecossistema de Automação Residencial Integrada com IA</h3>
+          </div>
+          <img
+            src="img/wifi-telemetria.png"
+            alt="Ícone de comunicação sem fio e telemetria integrada"
+            class="mini-icon-badge"
+          >
         </div>
-        <button type="submit" class="btn liquid-glass btn-glass-accent">Enviar Mensagem</button>
-        <p class="form-feedback" id="form-feedback"></p>
-      </form>
+
+        <p>
+          Projeto de automação residencial centralizada com inteligência artificial para análise preditiva, segurança e gestão de recursos domésticos:
+        </p>
+
+        <ul class="feature-list">
+          <li><strong>Segurança & Acesso:</strong> monitoramento de nível de botijão de gás via sensor de balança, controle de portão externo e integração com câmeras.</li>
+          <li><strong>Jardim & Clima:</strong> leitura de umidade do solo das plantas e mini estação meteorológica local (temperatura, umidade, pressão e chuva).</li>
+          <li><strong>Energia & Continuidade:</strong> rede protegida com UPS (nobreak) e proteções elétricas para manter sensores e roteadores sempre online, além de medição contínua de consumo elétrico com médias históricas e alertas inteligentes de atenção.</li>
+        </ul>
+
+        <div class="chip-list">
+          <span>ESP32</span>
+          <span>Inteligência Artificial</span>
+          <span>Sensor de Balança (HX711)</span>
+          <span>Estação Meteorológica</span>
+          <span>UPS & Proteção Elétrica</span>
+          <span>Monitoramento de Consumo</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- ==========================================
+         5. VAMOS CONVERSAR? + BONECO ESTILO THE SIMS ACENANDO
+         ========================================== -->
+    <section id="contato" class="section container" aria-labelledby="titulo-contato">
+      <h2 id="titulo-contato" class="section-title reveal">Vamos Conversar?</h2>
+
+      <div class="contact-layout">
+        <form class="contact-form card reveal" id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required autocomplete="name" placeholder="Seu nome">
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="seu@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" rows="4" required placeholder="Escreva sua mensagem..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+          <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <!-- Mascote estilo The Sims com Plumbob e aceno suave -->
+        <aside class="mascot-box reveal" aria-label="Ilustração animada de Igor Freitas acenando">
+          <div class="sims-avatar" role="img" aria-label="Boneco estilizado com cristal Plumbob amarelo flutuando e mão acenando">
+            <svg viewBox="0 0 220 260" class="sims-svg" xmlns="http://www.w3.org/2000/svg">
+              <!-- Cristal Plumbob estilo The Sims -->
+              <g class="plumbob">
+                <polygon points="110,12 126,38 110,64 94,38" fill="#facc15" stroke="#f97316" stroke-width="2"/>
+                <polygon points="110,12 126,38 110,38" fill="#fef08a" opacity="0.8"/>
+                <polygon points="110,64 126,38 110,38" fill="#ea580c" opacity="0.85"/>
+              </g>
+
+              <!-- Corpo / Camiseta -->
+              <path d="M62,235 C62,186 158,186 158,235 Z" fill="#18181b" stroke="#f97316" stroke-width="2.5"/>
+              <text x="110" y="220" text-anchor="middle" font-family="monospace" font-size="13" font-weight="bold" fill="#facc15">&lt;/&gt;</text>
+
+              <!-- Braço esquerdo em repouso -->
+              <path d="M66,195 Q48,215 56,235" fill="none" stroke="#eab38f" stroke-width="13" stroke-linecap="round"/>
+
+              <!-- Braço direito acenando -->
+              <g class="waving-arm">
+                <path d="M154,192 Q182,165 178,136" fill="none" stroke="#eab38f" stroke-width="13" stroke-linecap="round"/>
+                <circle cx="178" cy="132" r="8.5" fill="#eab38f"/>
+              </g>
+
+              <!-- Pescoço e Cabeça -->
+              <rect x="101" y="156" width="18" height="22" rx="8" fill="#d99b78"/>
+              <circle cx="110" cy="124" r="36" fill="#eab38f"/>
+
+              <!-- Cabelo curto escuro -->
+              <path d="M74,120 C73,88 147,88 146,120 C142,102 128,96 110,96 C92,96 78,102 74,120 Z" fill="#18181b"/>
+
+              <!-- Olhos e Sorriso -->
+              <circle cx="98" cy="123" r="3.5" fill="#18181b"/>
+              <circle cx="122" cy="123" r="3.5" fill="#18181b"/>
+              <path d="M99,137 Q110,147 121,137" fill="none" stroke="#18181b" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <p class="mascot-caption">Sul sul! Manda um oi aí 👋</p>
+        </aside>
+      </div>
     </section>
   </main>
 
